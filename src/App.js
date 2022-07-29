@@ -1,16 +1,16 @@
+import useWebSocket, { ReadyState } from 'react-use-websocket'
+
 import logo from './logo.svg';
 import './App.css';
-import NominationForm from './NominationForm'
-import NominationList from './NominationList.js'
-import NavBar from './NavBar.js'
+import MovieRoom from './MovieRoom.js'
+
+
 
 function App() {
+
     return (
-	    <div id="app-container">
-	    <NavBar />
-	    <NominationForm />
-	    <NominationList />
-	    </div>
+
+	<MovieRoom />
     );
 }
 
