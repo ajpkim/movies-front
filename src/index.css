@@ -1,13 +1,41 @@
 body {
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  max-width: 800px;
+  margin: auto;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+
+#nomination-form {
+    border: 5px solid lightblue;
+    padding: 8px;
+}
+
+.nomination-title {
+    font-family: monospace;
+    border: 3px solid hotpink;
+}
+.vote-results {
+    border: 3px solid grey;
+}
+.vote-btns {
+    border: 3px solid grey;
+}
+.nomination {
+    border: 3px solid lightgreen;
+    padding: 5px;
+    display: flex;
+}
+#nomination-list {
+    border: 5px solid pink;
+    padding: 10px;
 }
