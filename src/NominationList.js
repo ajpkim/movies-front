@@ -29,17 +29,28 @@ function NoVoteBtn(props) {
     )
 }
 
+function VetoBtn(props) {
+
+    return (
+	<div className="veto-btn">
+	    <form>
+		<button>VETO</button>
+	    </form>
+	</div>
+    )
+}
+
 function Nomination(props) {
 
     return (
 	<div className="nomination">
-	    <VoteResults />
+	    {/* <VoteResults /> */}
 	    <div className="nomination-title">
 		A MOVIE TITLE
 	    </div>
 	    <div className="vote-btns">
 		<YesVoteBtn />
-		<NoVoteBtn />
+	    <NoVoteBtn />
 	    </div>
 
 	</div>
