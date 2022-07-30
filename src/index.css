@@ -28,9 +28,16 @@ nav h2 {
     border: 1px solid grey;
 }
 
-#nomination-form {
+#nomination-form-container {
     border: 5px solid lightblue;
     padding: 8px;
+}
+
+
+#nomination-form {
+    display: flex;
+    align-items: center;
+    background: red;
 }
 
 .nomination-title {
