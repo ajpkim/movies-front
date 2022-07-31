@@ -4,7 +4,6 @@ import logo from './logo.svg';
 import './App.css';
 import MovieRoom from './MovieRoom.js'
 
-
 function App() {
 
     return (

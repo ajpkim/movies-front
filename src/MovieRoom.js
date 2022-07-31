@@ -1,3 +1,4 @@
+import { useState } from "react"
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 
 import logo from './logo.svg';
@@ -7,7 +8,7 @@ import NominationList from './NominationList.js'
 import NavBar from './NavBar.js'
 
 // Testing stuff
-import nominations from './json/test-nominations.json'
+import test_nominations from './json/test-nominations.json'
 const ws_path = 'ws://127.0.0.1:8000/ws/movie_selection/ABC/'
 
 function MovieRoom(props) {
@@ -15,17 +16,29 @@ function MovieRoom(props) {
 	onOpen: () => console.log("WS Connected!"),
 	onClose: () => console.log("WS Disconnected!"),
 	onMessage: (e) => {
-	    console.log("WS received msg: " + e.data);
+	    const data = JSON.parse(e.data);
+	    switch(data.type) {
+	    case 'nomination':
+		addNomination(data);
+		break;
+	    case 'vote':
+		addVote(data);
+		break
+	    default:
+		console.error("Unknown message type");
+		break;
+	    }
 	}
-    });
+    })
     const { sendJsonMessage } = useWebSocket(ws_path);
-    const connectionStatus = {
-	[ReadyState.CONNECTING]: 'Connecting',
-	[ReadyState.OPEN]: 'Open',
-	[ReadyState.CLOSING]: 'Closing',
-	[ReadyState.CLOSED]: 'Closed',
-	[ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-    }[readyState];
+    const [nominations, setNominations] = useState(test_nominations);
+    const addNomination = (data) => {
+	const nomination = {'title': data.title, 'votes_yes': data.votes_yes, 'votes_no': data.votes_no}
+	setNominations(nominations => [...nominations, nomination]);
+    }
+    const addVote = (data) => {
+	console.log("Processing a new vote");
+    }
 
     return (
 	<div id="app-container">
