@@ -41,13 +41,17 @@ nav h2 {
 }
 
 .nomination-title {
+    padding: 10px;
     font-family: monospace;
     border: 3px solid hotpink;
 }
 .vote-results {
     border: 3px solid grey;
 }
+.vote-btn {
+}
 .vote-btns {
+    padding: 10px;
     border: 3px solid grey;
 }
 .nomination {

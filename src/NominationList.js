@@ -8,22 +8,26 @@ function VoteResults(props) {
     )
 }
 function YesVoteBtn(props) {
-
+    const handleSubmit = (e) => {
+	e.preventDefault();
+    }
     return (
-	<div className="yes-btn">
-	    <form>
-		<button>YES</button>
+	<div className="vote-btn">
+	    <form onSubmit={handleSubmit}>
+		<button>✔️</button>
 	    </form>
 	</div>
     )
 }
 
 function NoVoteBtn(props) {
-
+    const handleSubmit = (e) => {
+	e.preventDefault();
+    }
     return (
-	<div className="no-btn">
-	    <form>
-		<button>NO</button>
+	<div className="vote-btn">
+	    <form onSubmit={handleSubmit}>
+		<button>❌</button>
 	    </form>
 	</div>
     )
@@ -46,7 +50,7 @@ function Nomination(props) {
 	<div className="nomination">
 	    {/* <VoteResults /> */}
 	    <div className="nomination-title">
-		A MOVIE TITLE
+		<h1>{props.title}</h1>
 	    </div>
 	    <div className="vote-btns">
 		<YesVoteBtn />
@@ -59,13 +63,15 @@ function Nomination(props) {
 
 function NominationList(props) {
 
+    // TODO: Fix key
     return (
 	<div id="nomination-list">
-	    <Nomination />
-	    <Nomination />
-	    <Nomination />
+	    {props.nominations.map((nomination) =>
+		<Nomination key={nomination.title} title={nomination.title}/>
+	    )}
 	</div>
     )
 }
+		// <h1 key={nomination.title}>{nomination.title}</h1>
 
 export default NominationList;
