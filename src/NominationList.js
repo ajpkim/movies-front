@@ -1,15 +1,21 @@
-function VoteResults(props) {
+// function VoteResults(props) {
 
-    return (
-	<div className="vote-results">
-	    <p>Yes: 0</p>
-	    <p>No: 0</p>
-	</div>
-    )
-}
+//     return (
+// 	<div className="vote-results">
+// 	    <p>Yes: 0</p>
+// 	    <p>No: 0</p>
+// 	</div>
+//     )
+// }
+
 function YesVoteBtn(props) {
     const handleSubmit = (e) => {
 	e.preventDefault();
+	props.sendJsonMessage({
+	    type: "vote",
+	    vote: 1,
+	    title: props.title
+	})
     }
     return (
 	<div className="vote-btn">
@@ -23,6 +29,11 @@ function YesVoteBtn(props) {
 function NoVoteBtn(props) {
     const handleSubmit = (e) => {
 	e.preventDefault();
+	props.sendJsonMessage({
+	    type: "vote",
+	    vote: 0,
+	    title: props.title
+	})
     }
     return (
 	<div className="vote-btn">
@@ -53,8 +64,8 @@ function Nomination(props) {
 		<h1>{props.title}</h1>
 	    </div>
 	    <div className="vote-btns">
-		<YesVoteBtn />
-	    <NoVoteBtn />
+		<YesVoteBtn sendJsonMessage={props.sendJsonMessage} title={props.title}/>
+		<NoVoteBtn sendJsonMessage={props.sendJsonMessage} title={props.title}/>
 	    </div>
 
 	</div>
@@ -67,11 +78,10 @@ function NominationList(props) {
     return (
 	<div id="nomination-list">
 	    {props.nominations.map((nomination) =>
-		<Nomination key={nomination.title} title={nomination.title}/>
+		<Nomination key={nomination.title} title={nomination.title} sendJsonMessage={props.sendJsonMessage}/>
 	    )}
 	</div>
     )
 }
-		// <h1 key={nomination.title}>{nomination.title}</h1>
 
 export default NominationList;

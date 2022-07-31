@@ -33,7 +33,12 @@ function MovieRoom(props) {
     const { sendJsonMessage } = useWebSocket(ws_path);
     const [nominations, setNominations] = useState(test_nominations);
     const addNomination = (data) => {
-	const nomination = {'title': data.title, 'votes_yes': data.votes_yes, 'votes_no': data.votes_no}
+	const nomination = {
+	    'title': data.title,
+	    'votes_yes': data.votes_yes,
+	    'votes_no': data.votes_no
+	}
+	console.log("new nomination: " + nomination);
 	setNominations(nominations => [...nominations, nomination]);
     }
     const addVote = (data) => {
@@ -44,7 +49,7 @@ function MovieRoom(props) {
 	<div id="app-container">
 	    <NavBar />
 	    <NominationForm sendJsonMessage={sendJsonMessage}/>
-	    <NominationList nominations={nominations}/>
+	    <NominationList nominations={nominations} sendJsonMessage={sendJsonMessage}/>
 	</div>
     )
 
