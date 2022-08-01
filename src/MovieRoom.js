@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState} from "react"
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 
 import logo from './logo.svg';
@@ -9,7 +9,9 @@ import NavBar from './NavBar.js'
 
 // Testing stuff
 import test_nominations from './json/test-nominations.json'
-const ws_path = 'ws://127.0.0.1:8000/ws/movie_selection/ABC/'
+const ws_path = 'ws://127.0.0.1:8000/ABC/'
+const test_room_url = 'http://localhost:8000/rooms/2/'
+const room_api_base_url = 'http://localhost:8000/rooms/'
 
 function MovieRoom(props) {
     const { readyState } = useWebSocket(ws_path, {
@@ -30,8 +32,21 @@ function MovieRoom(props) {
 	    }
 	}
     })
+
     const { sendJsonMessage } = useWebSocket(ws_path);
-    const [nominations, setNominations] = useState(test_nominations);
+    const [nominations, setNominations] = useState([]);
+
+    useEffect(() => {
+	const fetchData = async () => {
+	    const response = await fetch(room_api_base_url + '2' + '/');
+	    const newData = await response.json();
+	    setNominations(newData.nominations);
+	    console.log(newData.nominations);
+	};
+	fetchData();
+    }, [props.room_name]);
+
+
     const addNomination = (data) => {
 	const nomination = {
 	    'title': data.title,

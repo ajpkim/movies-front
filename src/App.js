@@ -8,7 +8,7 @@ function App() {
 
     return (
 
-	<MovieRoom />
+	<MovieRoom room_name='test_room'/>
     );
 }
 
