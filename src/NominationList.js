@@ -1,12 +1,12 @@
-// function VoteResults(props) {
+function VoteResults(props) {
 
-//     return (
-// 	<div className="vote-results">
-// 	    <p>Yes: 0</p>
-// 	    <p>No: 0</p>
-// 	</div>
-//     )
-// }
+    return (
+	<div className="vote-results">
+	    <p>Yes: 0</p>
+	    <p>No: 0</p>
+	</div>
+    )
+}
 
 function YesVoteBtn(props) {
     const handleSubmit = (e) => {
@@ -59,7 +59,7 @@ function Nomination(props) {
 
     return (
 	<div className="nomination">
-	    {/* <VoteResults /> */}
+	    <VoteResults />
 	    <div className="nomination-title">
 		<h1>{props.title}</h1>
 	    </div>

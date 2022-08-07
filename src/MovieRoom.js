@@ -8,10 +8,7 @@ import NominationList from './NominationList.js'
 import NavBar from './NavBar.js'
 
 // Testing stuff
-import test_nominations from './json/test-nominations.json'
-const ws_path = 'ws://127.0.0.1:8000/ABC/'
-const test_room_url = 'http://localhost:8000/rooms/2/'
-const room_api_base_url = 'http://localhost:8000/rooms/'
+const ws_path = 'ws://127.0.0.1:8000/api/test_room/'
 
 function MovieRoom(props) {
     const { readyState } = useWebSocket(ws_path, {
@@ -28,6 +25,7 @@ function MovieRoom(props) {
 		break
 	    default:
 		console.error("Unknown message type");
+		console.log(e.data);
 		break;
 	    }
 	}
@@ -38,13 +36,60 @@ function MovieRoom(props) {
 
     useEffect(() => {
 	const fetchData = async () => {
-	    const response = await fetch(room_api_base_url + '2' + '/');
+	    const response = await fetch('http://localhost:8000/api/rooms/test_room/');
 	    const newData = await response.json();
 	    setNominations(newData.nominations);
 	    console.log(newData.nominations);
 	};
 	fetchData();
     }, [props.room_name]);
+
+    //////////
+    // Testing the DCRF API/
+
+    const foo = () => {
+	console.log("SENDING retrieve (GET) request to server");
+	const msg = {
+	    action: "retrieve",
+	    request_id: new Date().getTime(),
+	    'room_name': props.room_name,
+	    pk: 2
+	}
+	sendJsonMessage(msg);
+    }
+
+    const subscribe_to_nomination = () => {
+	console.log("Subscirbing to nomination");
+	sendJsonMessage({
+	    action: "subscribe_to_nomination",
+	    request_id: new Date().getTime(),
+	    'room_name': props.room_name,
+	    'title': 'Moonrise Kingdom',
+	})
+    }
+
+    const subscribe_to_room = () => {
+	console.log("Subscirbing to room");
+	sendJsonMessage({
+	    action: "subscribe_to_room",
+	    request_id: new Date().getTime(),
+	    'name': props.room_name,
+	});
+    }
+    const [functionCount,setFunctionCount] = useState(0);
+
+    useEffect(() => {
+        if (functionCount === 0) { MyFunction() }
+    })
+
+    const MyFunction = () => {
+	foo();
+	subscribe_to_nomination();
+	// subscribe_to_room();
+	setFunctionCount(functionCount + 1);
+    }
+
+    //////////
 
 
     const addNomination = (data) => {
@@ -61,11 +106,11 @@ function MovieRoom(props) {
     }
 
     return (
-	<div id="app-container">
+	    <div id="app-container">
 	    <NavBar />
 	    <NominationForm sendJsonMessage={sendJsonMessage}/>
 	    <NominationList nominations={nominations} sendJsonMessage={sendJsonMessage}/>
-	</div>
+	    </div>
     )
 
 
