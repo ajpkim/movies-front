@@ -5,8 +5,10 @@ function NominationForm(props) {
     const handleSubmit = (e) => {
 	e.preventDefault();
 	props.sendJsonMessage({
-	    type: "new_nomination",
+	    action: "create_nomination",
+	    room_name: props.room_name,
 	    title: nomination,
+	    request_id: new Date().getTime(),
 	})
     }
     const handleChange = (e) => {

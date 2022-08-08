@@ -8,64 +8,36 @@ function VoteResults(props) {
     )
 }
 
-function YesVoteBtn(props) {
+function VoteBtn(props) {
     const handleSubmit = (e) => {
 	e.preventDefault();
 	props.sendJsonMessage({
-	    type: "vote",
-	    vote: 1,
-	    title: props.title
+	    action: "create_vote",
+	    room_name: props.room_name,
+	    nomination_title: props.nomination_title,
+	    vote: props.vote,
+	    request_id: new Date().getTime(),
 	})
     }
     return (
-	<div className="vote-btn">
+	<div className={props.className}>
 	    <form onSubmit={handleSubmit}>
-		<button>✔️</button>
-	    </form>
-	</div>
-    )
-}
-
-function NoVoteBtn(props) {
-    const handleSubmit = (e) => {
-	e.preventDefault();
-	props.sendJsonMessage({
-	    type: "vote",
-	    vote: 0,
-	    title: props.title
-	})
-    }
-    return (
-	<div className="vote-btn">
-	    <form onSubmit={handleSubmit}>
-		<button>❌</button>
-	    </form>
-	</div>
-    )
-}
-
-function VetoBtn(props) {
-
-    return (
-	<div className="veto-btn">
-	    <form>
-		<button>VETO</button>
+		<button>{props.text}</button>
 	    </form>
 	</div>
     )
 }
 
 function Nomination(props) {
-
     return (
 	<div className="nomination">
 	    <VoteResults />
 	    <div className="nomination-title">
-		<h1>{props.title}</h1>
+		<h1>{props.nomination_title}</h1>
 	    </div>
 	    <div className="vote-btns">
-		<YesVoteBtn sendJsonMessage={props.sendJsonMessage} title={props.title}/>
-		<NoVoteBtn sendJsonMessage={props.sendJsonMessage} title={props.title}/>
+		<VoteBtn vote={1} className={"yes-vote-btn"} text={"✔️"} room_name={props.room_name} sendJsonMessage={props.sendJsonMessage} nomination_title={props.nomination_title}/>
+		<VoteBtn vote={0} className={"no-vote-btn"} text={"❌"} room_name={props.room_name} sendJsonMessage={props.sendJsonMessage} nomination_title={props.nomination_title}/>
 	    </div>
 
 	</div>
@@ -73,12 +45,10 @@ function Nomination(props) {
 }
 
 function NominationList(props) {
-
-    // TODO: Fix key
     return (
 	<div id="nomination-list">
 	    {props.nominations.map((nomination) =>
-		<Nomination key={nomination.title} title={nomination.title} sendJsonMessage={props.sendJsonMessage}/>
+		<Nomination key={nomination.title} room_name={props.room_name} nomination_title={nomination.title} sendJsonMessage={props.sendJsonMessage}/>
 	    )}
 	</div>
     )

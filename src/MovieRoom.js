@@ -18,15 +18,14 @@ export default function MovieRoom(props) {
 	    const data = JSON.parse(e.data);
 	    switch(data.action) {
 	    case 'subscribe_to_room_nominations':
-		console.log("NEW NOMINATION");
 		addNomination(data);
 		break;
 	    case 'subscribe_to_room_votes':
 		addVote(data);
-		console.log("NEW VOTE");
 		break
 	    case 'retrieve':
 		setNominations(data.data.nominations);
+		console.log("New room data");
 		break
 	    default:
 		console.error("Unknown message type");
@@ -39,15 +38,26 @@ export default function MovieRoom(props) {
 
     const [nominations, setNominations] = useState([]);
 
+    const getRoomData = async () => {
+	sendJsonMessage({
+	    action: "retrieve",
+	    request_id: new Date().getTime(),
+	    name : props.room_name,
+	    pk: 2,
+	})
+    }
+
+    const addNomination = (data) => {
+	console.log("New nomination");
+	getRoomData();
+    }
+
+    const addVote = (data) => {
+	console.log("New vote");
+	getRoomData();
+    }
+
     useEffect(() => {
-	const fetchData = async () => {
-	    sendJsonMessage({
-		action: "retrieve",
-		request_id: new Date().getTime(),
-		'name': props.room_name,
-		pk: 2
-	    })
-	}
 	const subscribe_to_room_nominations = () => {
 	    console.log("Subscribing to room nominations");
 	    sendJsonMessage({
@@ -65,45 +75,18 @@ export default function MovieRoom(props) {
 	    })
 	}
 
-	fetchData();
+	getRoomData();
 	subscribe_to_room_nominations();
 	subscribe_to_room_votes();
 
     }, [props.room_name]);
 
-
-
-    const addNomination = (data) => {
-	const nomination = {
-	    'title': data.title,
-	    'votes': data.votes,
-	}
-	console.log("new nomination: " + nomination);
-	setNominations(nominations => [...nominations, nomination]);
-    }
-    const addVote = (data) => {
-	console.log("Processing a new vote");
-    }
-
     return (
 	    <div id="app-container">
 	    <NavBar />
-	    <NominationForm sendJsonMessage={sendJsonMessage}/>
-	    <NominationList nominations={nominations} sendJsonMessage={sendJsonMessage}/>
+	    <NominationForm room_name={props.room_name} sendJsonMessage={sendJsonMessage}/>
+	    <NominationList room_name={props.room_name} nominations={nominations} sendJsonMessage={sendJsonMessage}/>
 	    </div>
     )
+
 }
-
-
-
-// const [functionCount,setFunctionCount] = useState(0);
-
-    // useEffect(() => {
-    //     if (functionCount === 0) { MyFunction() }
-    // })
-
-    // const MyFunction = () => {
-    // 	subscribe_to_room_nominations();
-    // 	subscribe_to_room_votes();
-    // 	setFunctionCount(functionCount + 1);
-    // }
