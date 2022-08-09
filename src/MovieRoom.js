@@ -24,6 +24,7 @@ export default function MovieRoom(props) {
 		addVote(data);
 		break
 	    case 'retrieve':
+		// This is where we could do more processing of the nomination data if we want
 		setNominations(data.data.nominations);
 		console.log("New room data");
 		break
@@ -62,16 +63,16 @@ export default function MovieRoom(props) {
 	    console.log("Subscribing to room nominations");
 	    sendJsonMessage({
 		action: "subscribe_to_room_nominations",
-		request_id: new Date().getTime(),
 		'room_name': props.room_name,
+		request_id: new Date().getTime(),
 	    })
 	}
 	const subscribe_to_room_votes = () => {
 	    console.log("Subscribing to room votes");
 	    sendJsonMessage({
 		action: "subscribe_to_room_votes",
-		request_id: new Date().getTime(),
 		'room_name': props.room_name,
+		request_id: new Date().getTime(),
 	    })
 	}
 
