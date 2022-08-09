@@ -1,23 +1,23 @@
-function VoteResults(props) {
-    const renderVoteCounts = (votesCounts) => {
-	let data = [];
-	data.push(<h3 key={0}>Vote Counts</h3>)
-	let index = 1;
-	for (let [key, val] of votesCounts) {
-	    {key === 1 ?
-	     data.push(<p key={index}>YES: {val}</p>)
-	     :data.push(<p key={index}>NO: {val}</p>)
-	    }
-	    index += 1;
-	}
-	return data
-    }
-    return (
-	<div className="vote-results">
-	    {renderVoteCounts(props.votes)}
-	</div>
-    )
+// TODO: Should this type of vote and rating processing live outside the component and just be passed as props?
+// This is written to be generalizable to other voting schemes beyond just 0s and 1s
+// TODO: decide where these nomination stat related functions should live.
+const parseVotes = (votes) => {
+    let counts = new Map();
+    votes.map((v) => {
+	const val = counts.has(v.vote) ? counts.get(v.vote) + 1 : 1
+	counts.set(v.vote, val)
+    })
+    return counts
 }
+
+const getNominationRating = (nomination) => {
+    // For now this just handles YES and NO votes as 1's and 0s
+    const counts = parseVotes(nomination.votes);
+    let rating =  counts.has(1) ? counts.get(1) / nomination.votes.length : 0
+    rating = Math.round(rating * 100);
+    return rating
+}
+
 
 function VoteBtn(props) {
     const handleSubmit = (e) => {
@@ -39,31 +39,19 @@ function VoteBtn(props) {
     )
 }
 
-// TODO: Should this type of vote and rating processing live outside the component and just be passed as props?
-// This is written to be generalizable to other voting schemes beyond just 0s and 1s
-// TODO: decide where these nomination stat related functions should live.
-const parseVotes = (votes) => {
-    let counts = new Map();
-    votes.map((v) => {
-	const val = counts.has(v.vote) ? counts.get(v.vote) + 1 : 1
-	counts.set(v.vote, val)
-    })
-    return counts
+function VoteResults(props) {
+    // Responsible for displaying the Nomination Rating and Total votes number
+    return (
+	<div className="vote-results">
+	    <h3>Group Rating {props.rating}%</h3>
+	    <p>({props.votes.length} Votes)</p>
+	</div>
+    )
 }
-
-const getNominationRating = (nomination) => {
-    // For now this just handles YES and NO votes as 1's and 0s
-    const counts = parseVotes(nomination.votes);
-    let rating =  counts.has(1) ? counts.get(1) / nomination.votes.length : 0
-    rating = Math.round(rating * 100);
-    return rating
-}
-
 function Nomination(props) {
     return (
 	<div className="nomination">
-	    <VoteResults votes={parseVotes(props.votes)} />
-	    <h2>RATING{props.rating}</h2>
+	    <VoteResults votes={props.votes} rating={props.rating} />
 	    <div className="nomination-title">
 		<h1>{props.nomination_title}</h1>
 	    </div>
