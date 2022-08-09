@@ -1,12 +1,16 @@
-function NavBar(props) {
+import { Link } from "react-router-dom";
 
+function NavBar(props) {
     return (
 	<nav className="navbar">
-	    <h2>Home</h2>
-	    <h2>About</h2>
-	    <h2>Movie Recs</h2>
+	    <h1>Movies!</h1>
+	    <div className="links">
+		<Link to="/">Home</Link>
+		<Link to="/about">About</Link>
+		<Link to="/rooms/test_room">test_room</Link>
+	    </div>
 	</nav>
     )
 }
 
- export default NavBar
+export default NavBar

@@ -83,8 +83,7 @@ export default function MovieRoom(props) {
     }, [props.room_name]);
 
     return (
-	    <div id="app-container">
-	    <NavBar />
+	    <div id="movie-room-container">
 	    <NominationForm room_name={props.room_name} sendJsonMessage={sendJsonMessage}/>
 	    <NominationList room_name={props.room_name} nominations={nominations} sendJsonMessage={sendJsonMessage}/>
 	    </div>
