@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+// import { useParams } from 'react-router-dom'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 
 import logo from './logo.svg';
@@ -11,6 +12,9 @@ import NavBar from './NavBar.js'
 const ws_url = 'ws://127.0.0.1:8000/api/test_room/'
 
 export default function MovieRoom(props) {
+    // const { room_name } = useParams();
+    // const ws_url = 'ws://127.0.0.1:8000/api/' + room_name;
+
     const { readyState, sendJsonMessage } = useWebSocket(ws_url, {
 	onOpen: () => console.log("WS Connected!"),
 	onClose: () => console.log("WS Disconnected!"),
@@ -49,22 +53,14 @@ export default function MovieRoom(props) {
 	    pk: 1,
 	})
     }
-
     const addNomination = (data) => {
-	console.log("New nomination");
 	getRoomData();
     }
-
     const addVote = (data) => {
-	console.log("New vote");
 	getRoomData();
     }
-
-
-
     useEffect(() => {
 	const subscribe_to_room_nominations = () => {
-	    console.log("Subscribing to room nominations");
 	    sendJsonMessage({
 		action: "subscribe_to_room_nominations",
 		'room_name': props.room_name,
@@ -72,14 +68,12 @@ export default function MovieRoom(props) {
 	    })
 	}
 	const subscribe_to_room_votes = () => {
-	    console.log("Subscribing to room votes");
 	    sendJsonMessage({
 		action: "subscribe_to_room_votes",
 		'room_name': props.room_name,
 		request_id: new Date().getTime(),
 	    })
 	}
-
 	getRoomData();
 	subscribe_to_room_nominations();
 	subscribe_to_room_votes();

@@ -16,13 +16,12 @@ function App() {
     useEffect(() => {
 	// TODO: ASYNC/AWAIT
 	const initializeUser = () => {
-	    let userId;
-	    fetch(initializeUserURL, {method: "post"}
-		 ).then((response) => {
-		     response.json().then((json_data) => {
-			 localStorage.setItem("userId", json_data.id);
-		     })
-		 })
+	    fetch(initializeUserURL, {method: "post"})
+		.then((response) => {
+		    response.json().then((json_data) => {
+			localStorage.setItem("userId", json_data.id);
+		    })
+		})
 	}
 	if (localStorage.getItem("userId") === null) {
 	    console.log("Initializing User");

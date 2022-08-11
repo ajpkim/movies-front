@@ -44,7 +44,7 @@ function VoteResults(props) {
     // Responsible for displaying the Nomination Rating and Total votes number
     return (
 	<div className="vote-results">
-	    <h3>Group Rating {props.rating}%</h3>
+	    <h3>{props.rating}%</h3>
 	    <p>({props.votes.length} Votes)</p>
 	</div>
     )
@@ -54,15 +54,11 @@ function Nomination(props) {
 
     const hasVoted = (votes) => {
 	const userId = localStorage.getItem('userId');
-	console.log("Checking if voted...")
-	console.log("Votes: " + votes);
 	for (const vote of votes) {
 	    if (userId === vote.user) {
-		console.log("YES")
 		return true
 	    }
 	}
-	console.log("NOPE");
 	return false
     }
 

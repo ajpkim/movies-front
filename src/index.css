@@ -8,68 +8,55 @@ body {
   max-width: 800px;
   margin: auto;
 }
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
 nav {
     display: flex;
     border-bottom: 5px solid black;
     align-items: left;
-
-
-    /* align-items: left; */
-    /* justify-content: space-between; */
-    /* box-sizing: border-box; */
 }
-
 nav a {
     font-size: 24px;
     padding: 10px 25px 10px 0px;
 }
-
 nav a:visited {
     color: black;
 }
-
 nav a:hover {
     color: lightblue;
 }
-
 #nomination-form-container {
     border: 5px solid lightblue;
     padding: 8px;
 }
-
-
 #nomination-form {
     display: flex;
     align-items: center;
     background: red;
 }
-
-.nomination-title {
+#nomination-list {
+    border: 5px solid pink;
     padding: 10px;
-    font-family: monospace;
-    border: 3px solid hotpink;
-}
-.vote-results {
-    border: 3px solid grey;
-}
-.vote-btn {
-}
-.vote-btns {
-    padding: 10px;
-    border: 3px solid grey;
 }
 .nomination {
     border: 3px solid lightgreen;
     padding: 5px;
     display: flex;
 }
-#nomination-list {
-    border: 5px solid pink;
+.vote-results {
+    border: 3px solid grey;
+    width: 15%;
+    /* max-width: 300px;; */
+}
+.nomination-title {
     padding: 10px;
+    font-family: monospace;
+    border: 3px solid hotpink;
+}
+.vote-btns {
+    padding: 10px;
+    border: 3px solid blue;
+    margin: 0 0 0 auto;
 }
