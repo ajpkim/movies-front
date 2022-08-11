@@ -49,17 +49,35 @@ function VoteResults(props) {
 	</div>
     )
 }
+
 function Nomination(props) {
+
+    const hasVoted = (votes) => {
+	const userId = localStorage.getItem('userId');
+	console.log("Checking if voted...")
+	console.log("Votes: " + votes);
+	for (const vote of votes) {
+	    if (userId === vote.user) {
+		console.log("YES")
+		return true
+	    }
+	}
+	console.log("NOPE");
+	return false
+    }
+
     return (
 	<div className="nomination">
 	    <VoteResults votes={props.votes} rating={props.rating} />
 	    <div className="nomination-title">
 		<h1>{props.nomination_title}</h1>
 	    </div>
+	    {!hasVoted(props.votes) &&
 	    <div className="vote-btns">
 		<VoteBtn vote={1} className={"yes-vote-btn"} text={"✔️"} room_name={props.room_name} sendJsonMessage={props.sendJsonMessage} nomination_title={props.nomination_title}/>
 		<VoteBtn vote={0} className={"no-vote-btn"} text={"❌"} room_name={props.room_name} sendJsonMessage={props.sendJsonMessage} nomination_title={props.nomination_title}/>
-	    </div>
+	     </div>
+	    }
 
 	</div>
     );

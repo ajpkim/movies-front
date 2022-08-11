@@ -1,13 +1,31 @@
 import { useEffect } from "react"
 
+const createRoomURL = 'http://localhost:8000/api/rooms/create/'
+
 function CreateRoomBtn(props) {
 
-    // const generateRoomName(props
+    const handleClick = () => {
+	let room_url;
+	const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: 'LOL' })  // name is filled in with UUID on server
+	};
+	fetch(createRoomURL, requestOptions)
+	    .then((response) => {
+		response.json()
+		    .then((json_data) => {
+			window.location = "http://localhost:3000/rooms/" + json_data.name;
+		    })
+	    })
+    }
+
     return (
 	// <div id="create-room-btn-container">
 	<button
-	    name="create-room-btn">
-	    Create Movie Room
+	onClick={() => handleClick()}
+	name="create-room-btn">
+	Create Movie Room
 	</button>
 	// </div>
     )
