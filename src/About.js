@@ -4,7 +4,7 @@ export default function About() {
 	    <main>
 		<h2>Find a movie everyone wants to watch, <i>quickly</i>.</h2>
 		<p>
-		    No more endless scrolling and forgetting what's been said.
+		    No more endless catalogue scrolling and forgetting what's been said.
 		</p>
 		<h3>
 		    Nominate, Vote, Watch.

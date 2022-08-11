@@ -27,6 +27,7 @@ function VoteBtn(props) {
 	    room_name: props.room_name,
 	    nomination_title: props.nomination_title,
 	    vote: props.vote,
+	    user_id: localStorage.getItem("userId"),
 	    request_id: new Date().getTime(),
 	})
     }

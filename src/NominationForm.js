@@ -8,6 +8,7 @@ function NominationForm(props) {
 	    action: "create_nomination",
 	    room_name: props.room_name,
 	    title: nomination,
+	    user_id: localStorage.getItem("userId"),
 	    request_id: new Date().getTime(),
 	})
     }

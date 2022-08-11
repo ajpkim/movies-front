@@ -17,15 +17,25 @@ code {
 nav {
     display: flex;
     border-bottom: 5px solid black;
+    align-items: left;
 
 
     /* align-items: left; */
     /* justify-content: space-between; */
     /* box-sizing: border-box; */
 }
-nav h2 {
-    margin-right: 10px;
-    border: 1px solid grey;
+
+nav a {
+    font-size: 24px;
+    padding: 10px 25px 10px 0px;
+}
+
+nav a:visited {
+    color: black;
+}
+
+nav a:hover {
+    color: lightblue;
 }
 
 #nomination-form-container {

@@ -25,8 +25,10 @@ export default function MovieRoom(props) {
 		break
 	    case 'retrieve':
 		// This is where we could do more processing of the nomination data if we want
-		setNominations(data.data.nominations);
-		console.log("New room data");
+		if (data.data) {
+		    setNominations(data.data.nominations);
+		    console.log("New room data");
+		}
 		break
 	    default:
 		console.error("Unknown message type");
@@ -44,7 +46,7 @@ export default function MovieRoom(props) {
 	    action: "retrieve",
 	    request_id: new Date().getTime(),
 	    name : props.room_name,
-	    pk: 2,
+	    pk: 1,
 	})
     }
 
@@ -57,6 +59,8 @@ export default function MovieRoom(props) {
 	console.log("New vote");
 	getRoomData();
     }
+
+
 
     useEffect(() => {
 	const subscribe_to_room_nominations = () => {
@@ -83,6 +87,7 @@ export default function MovieRoom(props) {
     }, [props.room_name]);
 
     return (
+
 	    <div id="movie-room-container">
 	    <NominationForm room_name={props.room_name} sendJsonMessage={sendJsonMessage}/>
 	    <NominationList room_name={props.room_name} nominations={nominations} sendJsonMessage={sendJsonMessage}/>
