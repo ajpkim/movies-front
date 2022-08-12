@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-// import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 
 import logo from './logo.svg';
@@ -8,12 +8,9 @@ import NominationForm from './NominationForm'
 import NominationList from './NominationList.js'
 import NavBar from './NavBar.js'
 
-// Testing stuff
-const ws_url = 'ws://127.0.0.1:8000/api/test_room/'
-
 export default function MovieRoom(props) {
-    // const { room_name } = useParams();
-    // const ws_url = 'ws://127.0.0.1:8000/api/' + room_name;
+    const { room_name } = useParams();
+    const ws_url = 'ws://127.0.0.1:8000/api/rooms/';
 
     const { readyState, sendJsonMessage } = useWebSocket(ws_url, {
 	onOpen: () => console.log("WS Connected!"),
@@ -49,8 +46,7 @@ export default function MovieRoom(props) {
 	sendJsonMessage({
 	    action: "retrieve",
 	    request_id: new Date().getTime(),
-	    name : props.room_name,
-	    pk: 1,
+	    name: room_name,
 	})
     }
     const addNomination = (data) => {
@@ -63,14 +59,14 @@ export default function MovieRoom(props) {
 	const subscribe_to_room_nominations = () => {
 	    sendJsonMessage({
 		action: "subscribe_to_room_nominations",
-		'room_name': props.room_name,
+		'room_name': room_name,
 		request_id: new Date().getTime(),
 	    })
 	}
 	const subscribe_to_room_votes = () => {
 	    sendJsonMessage({
 		action: "subscribe_to_room_votes",
-		'room_name': props.room_name,
+		'room_name': room_name,
 		request_id: new Date().getTime(),
 	    })
 	}
@@ -78,13 +74,13 @@ export default function MovieRoom(props) {
 	subscribe_to_room_nominations();
 	subscribe_to_room_votes();
 
-    }, [props.room_name]);
+    }, [room_name]);
 
     return (
 
 	    <div id="movie-room-container">
-	    <NominationForm room_name={props.room_name} sendJsonMessage={sendJsonMessage}/>
-	    <NominationList room_name={props.room_name} nominations={nominations} sendJsonMessage={sendJsonMessage}/>
+	    <NominationForm room_name={room_name} sendJsonMessage={sendJsonMessage}/>
+	    <NominationList room_name={room_name} nominations={nominations} sendJsonMessage={sendJsonMessage}/>
 	    </div>
     )
 

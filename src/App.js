@@ -14,6 +14,7 @@ const initializeUserURL = 'http://localhost:8000/api/users/create/'
 function App() {
 
     useEffect(() => {
+
 	// TODO: ASYNC/AWAIT
 	const initializeUser = () => {
 	    fetch(initializeUserURL, {method: "post"})
@@ -34,16 +35,17 @@ function App() {
     return (
 	    <div className="App">
 	    <div className="header">
-	    <h1>Let's Watch a Movie!</h1>
+	    <h1>Lets Watch a Movie!</h1>
 	</div>
 	    <NavBar />
 	<Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-	    <Route path="/rooms/test_room" element={<MovieRoom room_name="test_room" />} />
+            <Route path="/rooms/:room_name" element={<MovieRoom />} />
 	</Routes>
 	</div>
     );
 }
 
 export default App;
+	    // <Route path="/rooms/test_room" element={<MovieRoom room_name="test_room" />} />
