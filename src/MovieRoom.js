@@ -11,7 +11,6 @@ import NavBar from './NavBar.js'
 export default function MovieRoom(props) {
     const { room_name } = useParams();
     const ws_url = 'ws://127.0.0.1:8000/api/rooms/';
-
     const { readyState, sendJsonMessage } = useWebSocket(ws_url, {
 	onOpen: () => console.log("WS Connected!"),
 	onClose: () => console.log("WS Disconnected!"),
@@ -31,6 +30,9 @@ export default function MovieRoom(props) {
 		    console.log("New room data");
 		}
 		break
+	    case 'get_movie_titles':
+		setTitles(data.data.titles);
+		break
 	    default:
 		console.error("Unknown message type");
 		console.log(data);
@@ -41,6 +43,7 @@ export default function MovieRoom(props) {
     })
 
     const [nominations, setNominations] = useState([]);
+    const [titles, setTitles] = useState([]);
 
     const getRoomData = async () => {
 	sendJsonMessage({
@@ -56,6 +59,12 @@ export default function MovieRoom(props) {
 	getRoomData();
     }
     useEffect(() => {
+	const get_movie_titles = () => {
+	    sendJsonMessage({
+		action: "get_movie_titles",
+		request_id: new Date().getTime(),
+	    })
+	}
 	const subscribe_to_room_nominations = () => {
 	    sendJsonMessage({
 		action: "subscribe_to_room_nominations",
@@ -71,17 +80,16 @@ export default function MovieRoom(props) {
 	    })
 	}
 	getRoomData();
+	get_movie_titles();
 	subscribe_to_room_nominations();
 	subscribe_to_room_votes();
-
     }, [room_name]);
 
+    const elements = ["Moonrise Kingdom", "Moon", "Moo Moo", "Isle of Dogs", "Island Paradise", "Island Warrior", "My first island"];
     return (
-
 	    <div id="movie-room-container">
-	    <NominationForm room_name={room_name} sendJsonMessage={sendJsonMessage}/>
-	    <NominationList room_name={room_name} nominations={nominations} sendJsonMessage={sendJsonMessage}/>
+	    <NominationForm room_name={room_name} sendMsgFunc={sendJsonMessage} titles={titles}/>
+	    <NominationList room_name={room_name} sendMsgFunc={sendJsonMessage} nominations={nominations} />
 	    </div>
     )
-
 }

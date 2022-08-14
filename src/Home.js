@@ -2,7 +2,7 @@ import { useEffect } from "react"
 
 const createRoomURL = 'http://localhost:8000/api/rooms/create/'
 
-function CreateRoomBtn(props) {
+function CreateRoomBtn() {
 
     const handleClick = () => {
 	let room_url;

@@ -19,38 +19,38 @@ const getNominationRating = (nomination) => {
 }
 
 
-function VoteBtn(props) {
+function VoteBtn({ room_name, nomination_title, vote, className, btnText, sendMsgFunc }) {
     const handleSubmit = (e) => {
 	e.preventDefault();
-	props.sendJsonMessage({
+	sendMsgFunc({
 	    action: "create_vote",
-	    room_name: props.room_name,
-	    nomination_title: props.nomination_title,
-	    vote: props.vote,
+	    room_name: room_name,
+	    nomination_title: nomination_title,
+	    vote: vote,
 	    user_id: localStorage.getItem("userId"),
 	    request_id: new Date().getTime(),
 	})
     }
     return (
-	<div className={props.className}>
+	<div className={className}>
 	    <form onSubmit={handleSubmit}>
-		<button>{props.text}</button>
+		<button>{btnText}</button>
 	    </form>
 	</div>
     )
 }
 
-function VoteResults(props) {
+function VoteResults({ rating, votes }) {
     // Responsible for displaying the Nomination Rating and Total votes number
     return (
 	<div className="vote-results">
-	    <h3>{props.rating}%</h3>
-	    <p>({props.votes.length} Votes)</p>
+	    <h3>{rating}%</h3>
+	    <p>({votes.length} Votes)</p>
 	</div>
     )
 }
 
-function Nomination(props) {
+function Nomination({ room_name, votes, rating, nomination_title, sendMsgFunc }) {
 
     const hasVoted = (votes) => {
 	const userId = localStorage.getItem('userId');
@@ -64,14 +64,14 @@ function Nomination(props) {
 
     return (
 	<div className="nomination">
-	    <VoteResults votes={props.votes} rating={props.rating} />
+	    <VoteResults votes={votes} rating={rating} />
 	    <div className="nomination-title">
-		<h1>{props.nomination_title}</h1>
+		<h1>{nomination_title}</h1>
 	    </div>
-	    {!hasVoted(props.votes) &&
+	    {!hasVoted(votes) &&
 	    <div className="vote-btns">
-		<VoteBtn vote={1} className={"yes-vote-btn"} text={"✔️"} room_name={props.room_name} sendJsonMessage={props.sendJsonMessage} nomination_title={props.nomination_title}/>
-		<VoteBtn vote={0} className={"no-vote-btn"} text={"❌"} room_name={props.room_name} sendJsonMessage={props.sendJsonMessage} nomination_title={props.nomination_title}/>
+		<VoteBtn vote={1} className={"yes-vote-btn"} btnText={"✔️"} room_name={room_name} sendMsgFunc={sendMsgFunc} nomination_title={nomination_title}/>
+		<VoteBtn vote={0} className={"no-vote-btn"} btnText={"❌"} room_name={room_name} sendMsgFunc={sendMsgFunc} nomination_title={nomination_title}/>
 	     </div>
 	    }
 
@@ -79,15 +79,15 @@ function Nomination(props) {
     );
 }
 
-function NominationList(props) {
+function NominationList({ room_name, nominations, sendMsgFunc }) {
     const sortNominations = (nominations) => {
 	return nominations.sort((a,b) => getNominationRating(a) < getNominationRating(b))
     }
 
     return (
 	<div id="nomination-list">
-	    {sortNominations(props.nominations).map((nomination) =>
-		<Nomination key={nomination.title} room_name={props.room_name} nomination_title={nomination.title} rating={getNominationRating(nomination)} votes={nomination.votes} sendJsonMessage={props.sendJsonMessage}/>
+	    {sortNominations(nominations).map((nomination) =>
+		<Nomination key={nomination.title} room_name={room_name} nomination_title={nomination.title} rating={getNominationRating(nomination)} votes={nomination.votes} sendMsgFunc={sendMsgFunc}/>
 				   )}
 	</div>
     )
